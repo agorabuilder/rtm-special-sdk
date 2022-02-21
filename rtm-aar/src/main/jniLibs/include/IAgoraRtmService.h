@@ -425,6 +425,16 @@ namespace agora {
        */
       JOIN_CHANNEL_ERR_JOIN_SAME_CHANNEL_TOO_OFTEN = 8,
 
+      /**
+       9: The token is invalid.
+       */
+      JOIN_CHANNEL_ERR_INVALID_TOKEN = 9,
+
+      /**
+      10: The token is expired.
+      */
+      JOIN_CHANNEL_ERR_TOKEN_EXPIRED = 10,
+
      /**
       101: \ref agora::rtm::IRtmService "IRtmService" is not initialized.
       */
@@ -1077,6 +1087,16 @@ namespace agora {
         long long currentSize;
     };
 
+        /**
+ @brief A data structure channel joining options
+ */
+    struct JoinChannelOptions {
+      /**
+       token for channel join
+       */
+      const char *token;
+    };
+
      /**
       @brief The class for setting or getting attributes of a channel.
        */
@@ -1697,6 +1717,31 @@ namespace agora {
        - &ne;0: Failure. See #JOIN_CHANNEL_ERR for the error codes.
       */
       virtual int join() = 0;
+     /**
+      Joins a channel.
+
+      @note You can join a maximum of 20 RTM channels at the same time. When the
+      number of the channels you join exceeds the limit, you receive the \ref
+      agora::rtm::JOIN_CHANNEL_ERR "JOIN_CHANNEL_ERR_FAILURE" error code.
+
+      - If this method call succeeds:
+         - The local user receives the \ref
+      agora::rtm::IChannelEventHandler::onJoinSuccess "onJoinSuccess" callback.
+         - All remote users receive the \ref
+      agora::rtm::IChannelEventHandler::onMemberJoined "onMemberJoined"
+      callback.
+      - If this method call fails, the local user receives the \ref
+      agora::rtm::IChannelEventHandler::onJoinFailure "onJoinFailure" callback.
+      See #JOIN_CHANNEL_ERR for the error codes.
+      @param options Options when join channel. See See
+       \ref agora::rtm::JoinChannelOptions "JoinChannelOptions".
+
+      @return
+      - 0: Success.
+      - &ne;0: Failure. See #JOIN_CHANNEL_ERR for the error codes.
+     */
+      virtual int join(const JoinChannelOptions &options) = 0;
+
 
       /**
        Leaves a channel.
