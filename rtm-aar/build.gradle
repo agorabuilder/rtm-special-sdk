@@ -36,6 +36,6 @@ publish {
     userOrg = 'agora'
     groupId = 'io.agora.rtm'
     artifactId = 'rtm-special-sdk'
-    publishVersion = '1.4.9.206'
+    publishVersion = '1.4.9.210'
     desc = 'Agora IO'
 }
